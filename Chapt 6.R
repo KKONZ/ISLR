@@ -182,19 +182,28 @@ sqrt(sum(coef(ridge.mod)[-1,60]^2))
 
 predict(ridge.mod,s=50,type="coefficients")[1:20,]
 
-
-
 # another way to split data into training/testing
-
 set.seed(1)
 train=sample(1:nrow(x), nrow(x)/2)
 test=(-train)
 y.test=y[test]
 
 ridge.mod=glmnet(x[train,],y[train],alpha=0,lambda=grid,
-thresh=1e-12)
+                 thresh=1e-12)
 ridge.pred=predict(ridge.mod,s=4,newx=x[test,])
 mean((ridge.pred-y.test)^2)
 
 
-mean((meany[train])-y.test)^2)
+mean((mean(y[train])-y.test)^2)
+
+ridge.pred=predict(ridge.mod,s=1e10,newx=x[test,])
+mean((ridge.pred-y.test)^2)
+
+ridge.pred=predict(ridge.mod,s=0,newx=x[test,],exact=T)
+mean((ridge.pred-y[test]^2))
+     
+lm(y~x, subset =train)
+predict(ridge.mod,s=0, exact=T,type="coefficient")[1:20,]
+     
+set.seed(1)
+cv.out=cv.glmnet(x[train,],y[train],alpha=0)
