@@ -207,3 +207,71 @@ predict(ridge.mod,s=0, exact=T,type="coefficient")[1:20,]
      
 set.seed(1)
 cv.out=cv.glmnet(x[train,],y[train],alpha=0)
+
+# Plot
+plot(cv.out)
+
+bestlam=cv.out$lambda.min
+bestlam
+
+ridge.pred=predict(ridge.mod,s=bestlam,news=s[test,])
+mean((ridge.pred-y.test)^2)
+
+# examine the full data set, using cross val lambda. 
+out=glmnet(x,y,alpha=0)
+predict(out, type="coefficients",s=bestlam)[1:20,]
+
+# Lasso
+lasso.mod=glmnet(x[train,],y[train],alpha=1,lambda=grid)
+
+set.seed(1)
+cv.out=cv.glmnet(x[train,],y[train],alpha=1)
+plot(cv.out)
+
+bestlam=cv.out$lambda.min
+
+
+lasso.pred=predict(lasso.mod,s=bestlam,newx=x[test,])
+mean((lasso.pred-y.test)^2)
+
+out=glmnet(x,y,alpha=1,lambda=grid)
+lasso.coef=predict(out,type="coefficients",s=bestlam)[1:20,]
+lasso.coef
+
+# Scale means standardizing
+# using cv by default creates 10 folds, for each possible value of M, the number of principal components
+library(pls)
+set.seed(2)
+pcr.fit=pcr(Salary~., data=Hitters,scale=TRUE, validation="CV")
+
+# reports RMSE, to get MSE sqr the results
+summary(pcr.fit)
+# can manually call the MSEP
+validationplot(pcr.fit,val.type="MSEP")
+
+# preform PCR on training data and evaluate its test set performance
+
+
+pcr.pred=predict(pcr.fit,x[test,],ncomp=7)
+mean((pcr.pred-y.test)^2)
+
+# pcr harder to interpret because they do not perform any kind of variable selection or even directly produce 
+# coefficient estimates
+
+pcr.git=pcr(y~x,scale=TRUE,ncomp=7)
+summary(pcr.fit)
+
+set.seed(1)
+pls.fit=plsr(Salary~., data=Hitters,subset=train,scale=TRUE, validation="CV")
+summary(pls.fit)
+
+pls.pred=predict(pls.fit,x[test,],ncomp=2)
+mean((pls.pred-y.test)^2)
+
+validationplot(pls.fit,val.type="MSEP") 
+pls.fit=plsr(Salary~.,data=Hitters,scale=TRUE,ncomp=2)
+summary(pls.fit)
+
+# Pcr only attempts to maximize the amount of variance explained in the predictors, while PLS searches for 
+# directions that explain variance in both the predictors and the response
+
