@@ -2,7 +2,12 @@ library(ISLR)
 x <- seq(-pi, pi, length=50)
 head(x)
 y=x
+
+# The outer product of the arrays X and Y is the array A with dimension c(dim(X), dim(Y)) 
+# where element A[c(arrayindex.x, arrayindex.y)] = FUN(X[arrayindex.x], Y[arrayindex.y], ...). 
 f=outer(x,y,function(x,y)cos(y)/(1+x^2))
+
+# Contour Plot
 contour(x,y,f)
 contour(x,y,f,nlevels=45, add=T)
 fa=(f-t(f)/2)
