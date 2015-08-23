@@ -24,17 +24,21 @@ A[,1:2]
 A[1,]
 A[-c(1,3),]
 dim(A)
+
+
 library(ISLR)
 fix(Auto)
 x <-data.frame(Auto)
 x
 rm(x)
 
-#Might be outdated?
+
 Auto
+#Column Names
 names(Auto)
 Auto=na.omit(Auto)
 dim(Auto)
+
 attach(mtcars)
 plot(cylinders,mpg)
 plot(Auto$cylinders,Auto$mpg)
@@ -45,6 +49,8 @@ plot(Auto$cylinders,Auto$mpg,col="red", varwidth=T)
 plot(Auto$cylinders,Auto$mpg,col="red", varwidth=T, horizontal=T)
 plot(Auto$cylinders,Auto$mpg,col="red", varwidth=T, xlab="cylinders",ylab="miles per gallon")
 plot(Auto$horsepower,Auto$mpg)
+
+# identify reads the position of the graphics pointer when the (first) mouse button is pressed.
 identify(Auto$horsepower,Auto$mpg,Auto$name)
 dev.off()
 summary(Auto)
