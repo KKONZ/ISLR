@@ -1,5 +1,3 @@
-# Chapter 10 Lab 1: Principal Components Analysis
-
 states=row.names(USArrests)
 states
 
