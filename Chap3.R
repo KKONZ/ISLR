@@ -5,8 +5,7 @@ attach(Boston)
 names(Boston)
 ?Boston
 
-#Causes error
-lm.fit(medv ~ lstat, data=Boston)
+
 attach(Boston)
 lm.fit=lm(medv~lstat)
 summary(lm.fit)
