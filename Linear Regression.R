@@ -45,7 +45,7 @@ lm.fit=lm(medv ~ lstat+age, data=Boston)
 summary(lm.fit)
 
 
-
+# Model summary
 lm.fit=lm(medv~.,data=Boston)
 summary(lm.fit)
 ?summary.lm
@@ -57,10 +57,9 @@ summary(lm.fit)$r.sq
 summary(lm.fit)$sigma
 
 
-
 library(car)
+# VIF Regression: A Fast Regression Algorithm For Large Data
 vif(lm.fit)
-
 
 # The following uses a regressing using all predictors except age
 lm.fit1=lm(medv~., -age, data=Boston)
@@ -69,7 +68,6 @@ summary(lm.fit1)
 # alternatively use update
 lm.fit1=update(lm.fit, ~.-age)
 summary(lm.fit1)
-
 
 
 # interaction terms
